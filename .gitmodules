@@ -1,0 +1,9 @@
+[submodule "rdfstore-js"]
+	path = rdfstore-js
+	url = https://github.com/antoniogarrote/rdfstore-js.git
+[submodule "externals/rdfstore-js"]
+	path = externals/rdfstore-js
+	url = https://github.com/antoniogarrote/rdfstore-js.git
+[submodule "externals/jquery"]
+	path = externals/jquery
+	url = git://github.com/jquery/jquery.git
