@@ -7,7 +7,7 @@ This project is mapping [rdfstore.js](https://github.com/antoniogarrote/rdfstore
 
  * Git clone this project
  * update the submodules of this project in the `externals` directory with
-```bash
+```
 $ git submodule update --init --recursive
 ```
  * compile the scala code in sbt `~packageJS`
