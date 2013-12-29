@@ -5,17 +5,17 @@ This project is mapping [rdfstore.js](https://github.com/antoniogarrote/rdfstore
 
 ## Getting Started
 
- # Git clone this project
- # update the submodules of this project in the `externals` directory with
+ * Git clone this project
+ * update the submodules of this project in the `externals` directory with
 ```bash
 $ git submodule update --init --recursive
 ```
- # compile the scala code in sbt
+ * compile the scala code in sbt
 ```bash
 $ sbt
 > ~packageJS
 ```
- # You can then open up [html/rdfstore-scalajs.html](html/rdfstore-scalajs.html) from
+ * You can then open up [html/rdfstore-scalajs.html](html/rdfstore-scalajs.html) from
 your local hard drive in your browser and when you look at the console output you will see
 a lot of log statements showing what is working at this point.
 
