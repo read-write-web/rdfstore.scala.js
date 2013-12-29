@@ -12,7 +12,7 @@ $ git submodule update --init --recursive
 ```
  * compile the scala code in sbt
 ```bash
-$ sbt
+$ ./sbt
 > ~packageJS
 ```
  * You can then open up [html/rdfstore-scalajs.html](html/rdfstore-scalajs.html) from
