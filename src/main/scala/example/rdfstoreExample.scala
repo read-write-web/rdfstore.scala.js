@@ -17,10 +17,10 @@ object rdfstoreExample {
     val store = Store.create { test _ }
     val env = store.rdf
 
-    console.log()
     console.log("created store")
     console.log(store)
 
+    console.log("~~~~~~~~~~~~~~~")
     val henry = env.createNamedNode("http://bblfish.net/#hjs")
     val henryDomain = "http://bblfish.net/"
     console.log("Create a graph and store it under "+henryDomain)
@@ -32,30 +32,30 @@ object rdfstoreExample {
       console.log(obj);
       ()})
 
-    console.log()
-    console.log(s"subscribe to events on the <$henryDomain> graph")
+    console.log("~~~~~~~~~~~~~~~")
+    console.log(s"notification1: subscribe to events on the <$henryDomain> graph")
     //create a subscription to events on that graph
-    val eventfun: js.Function2[js.String,js.Array[Triple],Unit] = (a: js.String,b: js.Array[Triple])=>{
-      console.log("eventfun: received event for subscription")
+    val notification: js.Function2[js.String,js.Array[Triple],Unit] = (a: js.String,b: js.Array[Triple])=>{
+      console.log("notification1: received event for subscription")
       console.log(a)
       console.log(b)
       ()
     }
-    store.subscribe(null,null,null,henryDomain,eventfun)
+    store.subscribe(null,null,null,henryDomain,notification)
 
 
-    console.log()
-    console.log(s"subscribe to event notifications on <$henry> in <$henryDomain>")
+    console.log("~~~~~~~~~~~~~~~")
+    console.log(s"notification2: subscribe to event notifications on <$henry> in <$henryDomain>")
     //try a node observation subscription
-    val eventfun2: js.Function1[Graph,Unit] = (g: Graph) =>{
-      console.log("eventfun2: received event for subscription with graph")
+    val notification2: js.Function1[Graph,Unit] = (g: Graph) =>{
+      console.log("notification2: received event for subscription with graph")
       console.log(g)
       ()
     }
-    store.startObservingNode(henry.toString,henryDomain,eventfun2)
+    store.startObservingNode(henry.toString,henryDomain,notification2)
     store.setBatchLoadEvents(true)
 
-    console.log()
+    console.log("~~~~~~~~~~~~~")
     val t2 = env.createTriple(henry,env.createNamedNode("foaf:knows"),henry)
     val g2 = env.createGraph(js.Array(t2))
     console.log(s"insert a new triple t2=$t2")
@@ -65,15 +65,16 @@ object rdfstoreExample {
       console.log(obj);
       ()})
 
-    console.log()
+    console.log("~~~~~~~~~~~~~~~")
     val t3 = env.createTriple(env.createBlankNode(),env.createNamedNode("foaf:name"),env.createLiteral("Joe","en",null))
-    console.log("now inserting new triple which does not mention henry and so should not trigger the node observation:"+t3)
+    console.log("now inserting new triple which does not mention henry and so should not trigger notification2:"+t3)
     val g3 = env.createGraph(js.Array(t3))
     store.insert(g3,"http://bblfish.net/",(bool: js.Boolean,obj: js.Object)=> {
-      console.log(s"insert g3 succeeded $bool . Should not trigger eventfun2 ");
+      console.log(s"insert g3 succeeded $bool . Should not trigger notification2 ");
       console.log(obj);
       ()})
 
+    console.log("~~~~~~~~~~~~~~~")
     console.log(s"delete $t3 from graph <$henryDomain>")
     store.delete(g3,henryDomain,(succ: js.Boolean,obj: js.Object) => {
       console.log(s"deleted $succ of $t3. obj=") ;
@@ -81,6 +82,15 @@ object rdfstoreExample {
       ()}
     )
 
+    console.log("~~~~~~~~~~~~~~~")
+    console.log(s"delete $t3 again from graph <$henryDomain> ( to see how the error messages change)")
+    store.delete(g3,henryDomain,(succ: js.Boolean,obj: js.Object) => {
+      console.log(s"deleted $succ of $t3. obj=") ;
+      console.log(obj)
+      ()}
+    )
+
+    console.log("~~~~~~~~~~~~~~~")
     val timblDoc = "http://www.w3.org/People/Berners-Lee/card"
     console.log(s"now load <$timblDoc>")
     store.load("remote",timblDoc,timblDoc,(succ:js.Boolean,res: js.Number)=>{
@@ -95,7 +105,7 @@ object rdfstoreExample {
 
   }
 
-  def test(store: Store) {
+  private def test(store: Store) {
     console.log(s"in rdfstore.create, was successful")
     console.log(store)
   }
